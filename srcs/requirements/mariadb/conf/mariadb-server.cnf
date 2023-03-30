@@ -1,0 +1,11 @@
+# [galera]Options read by MariaDB Server, but only if it is compiled with Galera Cluster support.
+# In MariaDB 10.1 and later, all builds on Linux are compiled with Galera Cluster support.
+# When using one of these builds, options from this option group are read even if the Galera Cluster functionality is not enabled.
+[galera]
+
+#Change the value of the bind-address from 127.0.0.1 to 0.0.0.0 so that MariaDB server accepts
+#connections on all host IPv4 interfaces.
+bind-address=0.0.0.0
+
+port=3306
+

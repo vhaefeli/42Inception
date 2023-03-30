@@ -1,0 +1,71 @@
+version: '3'
+
+# NETWORK
+networks:
+  42-network:
+
+services:
+
+  # DATABASE
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+    container_name: mariadb
+    restart: always
+    env_file: .env
+    volumes:
+      - ~/data/mariadb:/var/lib/mysql
+      - db_volume:/var/lib/mysql
+    networks:
+      - 42-network
+
+  # WORDPRESS
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+      args:
+        DOMAIN: ${DOMAIN}
+    container_name: wordpress
+    restart: always
+    env_file: .env
+    volumes:
+      - ~/data/wordpress:/var/www/${DOMAIN}
+      - wp_volume:/var/www/${DOMAIN}
+    depends_on:
+      - mariadb
+    networks:
+      - 42-network
+
+  # SERVER
+  nginx:
+    build:
+      context: ./requirements/nginx
+      args:
+        DOMAIN: ${DOMAIN}
+    container_name: nginx
+    restart: always
+    env_file: .env
+    ports:
+      - "443:443"
+    volumes:
+      - wp_volume:/var/www/${DOMAIN}
+    depends_on:
+      - wordpress
+    networks:
+      - 42-network
+
+# VOLUMES
+volumes:
+  wp_volume:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "/home/${LOGIN}/data/wordpress"
+  db_volume:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "/home/${LOGIN}/data/mariadb"
+
