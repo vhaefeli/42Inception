@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.14
 
 LABEL maintainer="vhaefeli@student.42lausanne.ch"
 
@@ -23,11 +23,11 @@ RUN openssl req \
 	# no encryption of private key (also no prompt). Should use -noenc instead
 	-nodes \
 	# Output file of the private key
-	-keyout /etc/ssl/certs/$DOMAIN.key \
+	-keyout /etc/nginx/ssl/certs/$DOMAIN.key \
 	# Outut file of the public key
-	-out /etc/ssl/certs/$DOMAIN.crt \
+	-out /etc/nginx/ssl/certs/$DOMAIN.crt \
 	# Certificate details
-	-subj "/C=CH/ST=Geneva/L=Geneva/O=42/OU=42/CN=$DOMAIN"
+	-subj "/C=CH/ST=Vaud/L=Renens/O=42/OU=42/CN=$DOMAIN"
 
 # Copy nginx configuration
 COPY ./conf/nginx.conf /etc/nginx/http.d/default.conf

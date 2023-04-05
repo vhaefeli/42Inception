@@ -45,9 +45,9 @@ if [ ! -f "wp-config.php" ]; then
     --admin_password="$WP_ADMIN_PASSWD" \
     --admin_email="$WP_ADMIN_EMAIL" --skip-email
 
-if [ -n "$WP_THEME" ]; then
-		wp theme install "$WP_THEME" --activate
-		echo "${YELLOW}Theme used: ${WP_THEME}${EOC}"
+	if [ -n "$WP_THEME" ]; then
+			wp theme install "$WP_THEME" --activate
+			echo "${YELLOW}Theme used: ${WP_THEME}${EOC}"
 	else
 		echo "${YELLOW}No theme provided${EOC}"
 	fi
