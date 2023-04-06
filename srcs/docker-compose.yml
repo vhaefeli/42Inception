@@ -14,7 +14,7 @@ services:
     restart: always
     env_file: .env
     volumes:
-      - ~/data/mariadb:/var/lib/mysql
+      - ${DB_VOLUME}:/var/lib/mysql
       - db_volume:/var/lib/mysql
     networks:
       - 42-network
@@ -29,7 +29,7 @@ services:
     restart: always
     env_file: .env
     volumes:
-      - ~/data/wordpress:/var/www/${DOMAIN}
+      - ${WP_VOLUME}:/var/www/${DOMAIN}
       - wp_volume:/var/www/${DOMAIN}
     depends_on:
       - mariadb
@@ -61,11 +61,11 @@ volumes:
     driver_opts:
       type: "none"
       o: "bind"
-      device: "/home/${LOGIN}/data/wordpress"
+      device: ${WP_VOLUME}
   db_volume:
     driver: local
     driver_opts:
       type: "none"
       o: "bind"
-      device: "/home/${LOGIN}/data/mariadb"
+      device: ${DB_VOLUME}
 

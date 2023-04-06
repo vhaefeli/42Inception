@@ -13,6 +13,8 @@ DOCKER_DIR	= ${SRCS_DIR}docker-compose.yml
 ENV_FILE	= ${SRCS_DIR}.env
 NAME		= $(shell grep -m 1 APP_NAME ${ENV_FILE} | cut -d '=' -f2)
 DOMAIN		= $(shell grep -m 1 DOMAIN ${ENV_FILE} | cut -d '=' -f2)
+DB_VOLUME	= $(shell grep -m 1 DB_VOLUME ${ENV_FILE} | cut -d '=' -f2)
+WP_VOLUME	= $(shell grep -m 1 WP_VOLUME ${ENV_FILE} | cut -d '=' -f2)
 
 # COMMANDS
 DOCKER		=  docker compose -f ${DOCKER_DIR} --env-file ${ENV_FILE} -p ${NAME}
@@ -67,7 +69,7 @@ down: ## Stop and remove containers
 clean: ## Remove all containers
 	@echo "${GREEN}Removing ${NAME}...${RESET}"
 	@${DOCKER} rm -f
-	@sudo rm -rf ~/data
+
 
 restart: ## Restart containers
 	@echo "${GREEN}Restarting ${NAME}...${RESET}"
@@ -80,6 +82,8 @@ rebuild: ## Rebuild containers
 fclean: clean ## Remove all containers
 	@echo "${GREEN}Removing ${NAME}...${RESET}"
 	@${DOCKER} down -v --remove-orphans --rmi all
+	@sudo rm -rf ${DB_VOLUME}
+	@sudo rm -rf ${WP_VOLUME}
 
 prune: ## Prune all
 	@docker system prune -af

@@ -24,11 +24,11 @@ RUN mkdir -p /etc/nginx/ssl/certs && \
 	# no encryption of private key (also no prompt). Should use -noenc instead
 	-nodes \
 	# Output file of the private key
-	-keyout /etc/nginx/ssl/certs/vhaefeli.42.fr.key \
+	-keyout /etc/nginx/ssl/certs/${DOMAIN}.key \
 	# Outut file of the public key
-	-out /etc/nginx/ssl/certs/vhaefeli.42.fr.crt \
+	-out /etc/nginx/ssl/certs/${DOMAIN}.crt \
 	# Certificate details
-	-subj "/C=CH/ST=Vaud/L=Renens/O=42/OU=42/CN=vhaefeli.42.fr/UID=vhaefeli"
+	-subj "/C=CH/ST=Vaud/L=Renens/O=42/OU=42/CN=${DOMAIN}/UID=vhaefeli"
 
 # Folder for the server configuration files
 RUN mkdir -p /var/run/nginx
