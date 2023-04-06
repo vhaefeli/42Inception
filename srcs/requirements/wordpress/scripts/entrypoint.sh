@@ -45,12 +45,15 @@ if [ ! -f "wp-config.php" ]; then
     --admin_password="$WP_ADMIN_PASSWD" \
     --admin_email="$WP_ADMIN_EMAIL" --skip-email
 
+# install a theme
 	if [ -n "$WP_THEME" ]; then
 			wp theme install "$WP_THEME" --activate
-			echo "${YELLOW}Theme used: ${WP_THEME}${EOC}"
+			echo "${YELLOW}Theme used: ${WP_THEME}${NC}"
 	else
-		echo "${YELLOW}No theme provided${EOC}"
+		echo "${YELLOW}No theme provided${NC}"
 	fi
+#create the first post
+	wp post create --post_type=post --post_title="Inception c'est termine!" --post_content="Reste a voir si c'est bien compris"
 
   # Update plugins
   wp plugin update --all

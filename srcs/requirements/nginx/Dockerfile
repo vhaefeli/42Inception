@@ -13,7 +13,8 @@ RUN apk update && apk upgrade \
 EXPOSE 443
 
 # Generate self-signed SSL certificate
-RUN openssl req \
+RUN mkdir -p /etc/nginx/ssl/certs && \
+	openssl req \
 	# Generate a new certificate instead of a certificate request
 	-x509 \
 	# Days of validity
@@ -23,11 +24,14 @@ RUN openssl req \
 	# no encryption of private key (also no prompt). Should use -noenc instead
 	-nodes \
 	# Output file of the private key
-	-keyout /etc/nginx/ssl/certs/$DOMAIN.key \
+	-keyout /etc/nginx/ssl/certs/vhaefeli.42.fr.key \
 	# Outut file of the public key
-	-out /etc/nginx/ssl/certs/$DOMAIN.crt \
+	-out /etc/nginx/ssl/certs/vhaefeli.42.fr.crt \
 	# Certificate details
-	-subj "/C=CH/ST=Vaud/L=Renens/O=42/OU=42/CN=$DOMAIN"
+	-subj "/C=CH/ST=Vaud/L=Renens/O=42/OU=42/CN=vhaefeli.42.fr/UID=vhaefeli"
+
+# Folder for the server configuration files
+RUN mkdir -p /var/run/nginx
 
 # Copy nginx configuration
 COPY ./conf/nginx.conf /etc/nginx/http.d/default.conf
