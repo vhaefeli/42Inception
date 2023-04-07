@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.14
 
 LABEL maintainer="vhaefeli@student.42lausanne.ch"
 
