@@ -52,8 +52,6 @@ if [ ! -f "wp-config.php" ]; then
 	else
 		echo "${YELLOW}No theme provided${NC}"
 	fi
-#create the first post
-	wp post create --post_type=post --post_title="Inception c'est termine!" --post_content="Reste a voir si c'est bien compris"
 
   # Update plugins
   wp plugin update --all
@@ -64,6 +62,8 @@ if [ ! -f "wp-config.php" ]; then
     "$WP_USER_EMAIL" \
     --role=editor \
     --user_pass="$WP_USER_PASSWD"
+	#create the first post
+	wp post generate --count=1  --post_title="Inception c'est termine!"
 fi
 
 # Run php-fpm

@@ -68,7 +68,7 @@ down: ## Stop and remove containers
 
 clean: ## Remove all containers
 	@echo "${GREEN}Removing ${NAME}...${RESET}"
-	@${DOCKER} rm -f
+	@${DOCKER} down -v --remove-orphans --rmi all
 
 
 restart: ## Restart containers
